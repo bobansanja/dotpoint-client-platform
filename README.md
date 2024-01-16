@@ -11,9 +11,18 @@ It consists of following modules:
 3. Admin Panel
    1. User with `ADMIN` role can access this panel.
 
+### Platform View
+
+Platform View can be accessed by registered Users and Admin users, upon log-in.
+User can browse Products and Modules which are Free, as well as the ones he is subscribed to.
+
+User can access (browse and preview) Resources which are attached to Modules and Products, available to him.
+User cannot access Resources for which he has no View permission.
+
 ### Admin Panel
 
-Admin Panel is the one with most features. It consists of:
+Admin Panel is used for Platform and User management.
+It is the one with most features, consisting of:
 
 1. Configuration _(work in progress)_
    1. Admin can configure his Platform Appearance, by adding logo image and setting a brand color.
@@ -22,7 +31,7 @@ Admin Panel is the one with most features. It consists of:
       1. Admin can view a list of Products.
       2. Admin can create and edit Product.
       3. Admin can enable/disable Product globally.
-      4. Admin can make a Product Free and available to all registered users or make it `Subscription Required` globally. The latter would make the product available only to users who have a subscription to it.
+      4. Admin can make a Product free and available to all registered users or make it `Subscription Required` globally. The latter would make the product available only to users who have a subscription to it.
    2. Modules
       1. Admin can view a list of Modules.
       2. Admin can create and edit Module and attach it to a certain Product.
