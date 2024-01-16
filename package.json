@@ -1,0 +1,47 @@
+{
+  "name": "dotpoint-client-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test:unit": "vitest",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@mdi/font": "7.0.96",
+    "axios": "^1.6.0",
+    "dayjs": "^1.11.10",
+    "lodash-es": "^4.17.21",
+    "pinia": "^2.1.7",
+    "plyr": "^3.7.8",
+    "tinymce": "^6.8.2",
+    "vue": "^3.3.8",
+    "vue-router": "^4.1.6",
+    "vuetify": "^3.4.2"
+  },
+  "devDependencies": {
+    "@sentry/vite-plugin": "^2.2.1",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/test-utils": "^2.3.0",
+    "eslint": "^8.40.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.13.0",
+    "husky": "^8.0.3",
+    "jsdom": "^21.1.0",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.4",
+    "sass": "^1.61.0",
+    "vite": "^4.2.3",
+    "vite-plugin-vuetify": "^1.0.2",
+    "vitest": "^0.29.1"
+  },
+  "lint-staged": {
+    "*.{js, vue, scss, md}": "prettier --write"
+  }
+}
