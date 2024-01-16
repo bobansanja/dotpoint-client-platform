@@ -2,7 +2,7 @@
 
 `dotpoint-client-platform` is a Vue 3 client application, using Vuetify 3.
 
-It consists of
+It consists of following modules:
 
 1. Home
    1. Welcome screen, used for user Log-in and Registration.
