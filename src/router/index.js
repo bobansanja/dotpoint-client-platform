@@ -28,16 +28,16 @@ const router = createRouter({
           name: 'platform-products',
           component: () => import('../components/platform-page/modules/ModulesPage.vue'),
         },
-        {
-          path: 'profile',
-          name: 'platform-user-profile',
-          component: () => import('../components/platform-page/user-profile/UserProfile.vue'),
-        },
-        {
-          path: 'account',
-          name: 'platform-user-account',
-          component: () => import('../components/platform-page/user-account/UserAccount.vue'),
-        },
+        // {
+        //   path: 'profile',
+        //   name: 'platform-user-profile',
+        //   component: () => import('../components/platform-page/user-profile/UserProfile.vue'),
+        // },
+        // {
+        //   path: 'account',
+        //   name: 'platform-user-account',
+        //   component: () => import('../components/platform-page/user-account/UserAccount.vue'),
+        // },
       ],
     },
     {
