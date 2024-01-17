@@ -31,7 +31,7 @@ export async function register(data) {
       data,
     });
 
-    return response.data;
+    return response;
   } catch (e) {
     console.log(e);
   }
