@@ -41,13 +41,13 @@ const routes = [
     name: 'Products',
     path: 'platform-products',
   },
-  {
-    name: 'Profile',
-    path: 'platform-user-profile',
-  },
-  {
-    name: 'Account',
-    path: 'platform-user-account',
-  },
+  // {
+  //   name: 'Profile',
+  //   path: 'platform-user-profile',
+  // },
+  // {
+  //   name: 'Account',
+  //   path: 'platform-user-account',
+  // },
 ];
 </script>
