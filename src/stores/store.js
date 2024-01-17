@@ -11,6 +11,8 @@ import { useRouter } from 'vue-router';
 export const useStore = defineStore('store', () => {
   const router = useRouter();
 
+  const baseUrl = 'https://api.dotpoint.click';
+
   const loginFormDisplayed = ref(false);
   const toggleLoginForm = (val) => {
     if (registerFormDisplayed.value) toggleRegisterForm(false);
@@ -47,6 +49,7 @@ export const useStore = defineStore('store', () => {
   };
 
   return {
+    baseUrl,
     user,
     setUser,
     setUserInApp,

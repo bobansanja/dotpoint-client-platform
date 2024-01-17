@@ -3,9 +3,9 @@ import { getItemFromStorage } from './storage.js';
 import { useStore } from '../stores/store.js';
 
 const http = axios.create({});
-const baseUrl = 'https://api.dotpoint.click';
 
 export async function login(data) {
+  const { baseUrl } = useStore();
   try {
     const response = await http({
       method: 'POST',
@@ -23,6 +23,7 @@ export async function login(data) {
 }
 
 export async function register(data) {
+  const { baseUrl } = useStore();
   try {
     const response = await http({
       method: 'POST',
@@ -37,6 +38,7 @@ export async function register(data) {
 }
 
 export async function getUsers() {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -54,6 +56,7 @@ export async function getUsers() {
 }
 
 export async function addUserSubscription(data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -72,6 +75,7 @@ export async function addUserSubscription(data) {
 }
 
 export async function getProducts() {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -89,6 +93,7 @@ export async function getProducts() {
 }
 
 export async function createProduct(data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -107,6 +112,7 @@ export async function createProduct(data) {
 }
 
 export async function updateProduct(id, data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -125,6 +131,7 @@ export async function updateProduct(id, data) {
 }
 
 export async function getModules() {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -142,6 +149,7 @@ export async function getModules() {
 }
 
 export async function getSingleModule(id) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -159,6 +167,7 @@ export async function getSingleModule(id) {
 }
 
 export async function createModule(data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -177,6 +186,7 @@ export async function createModule(data) {
 }
 
 export async function updateModule(id, data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -195,6 +205,7 @@ export async function updateModule(id, data) {
 }
 
 export async function assignResourceToModule(data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -213,6 +224,7 @@ export async function assignResourceToModule(data) {
 }
 
 export async function getResources() {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -230,6 +242,7 @@ export async function getResources() {
 }
 
 export async function createResource(data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -249,6 +262,7 @@ export async function createResource(data) {
 }
 
 export async function updateResource(id, data) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
@@ -267,11 +281,30 @@ export async function updateResource(id, data) {
 }
 
 export async function deleteResource(id) {
+  const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
     const response = await http({
       method: 'DELETE',
       url: `${baseUrl}/resources/${id}`,
+      headers: {
+        Authorization: `Bearer ${user.token || ''}`,
+      },
+    });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getResource(filePath) {
+  const { baseUrl } = useStore();
+  const user = getItemFromStorage('dotpoint_user') || {};
+  try {
+    const response = await http({
+      method: 'GET',
+      url: `${baseUrl}${filePath}`,
       headers: {
         Authorization: `Bearer ${user.token || ''}`,
       },
