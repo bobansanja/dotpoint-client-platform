@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import { isBoolean } from 'lodash-es';
+import { isBoolean, sortBy } from 'lodash-es';
 
 export const usePlatformStore = defineStore('platformStore', () => {
   const productsDrawerDisplayed = ref(false);
@@ -12,7 +12,13 @@ export const usePlatformStore = defineStore('platformStore', () => {
 
   const setFreeProducts = (products) => {
     const prodList = products || [];
+    // Display only products which contain module(s)
     const formattedProducts = prodList.filter((prod) => prod.modules && prod.modules.length);
+
+    // Sort modules in each product
+    formattedProducts.forEach((prod) => {
+      prod.modules = sortBy([...prod.modules], 'position');
+    });
 
     freeProducts.value = formattedProducts;
 
@@ -24,7 +30,13 @@ export const usePlatformStore = defineStore('platformStore', () => {
 
   const setSubscriptionProducts = (products) => {
     const prodList = products || [];
+    // Display only products which contain module(s)
     const formattedProducts = prodList.filter((prod) => prod.modules && prod.modules.length);
+
+    // Sort modules in each product
+    formattedProducts.forEach((prod) => {
+      prod.modules = sortBy([...prod.modules], 'position');
+    });
 
     subscriptionProducts.value = formattedProducts;
 
