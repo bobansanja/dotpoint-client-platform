@@ -16,12 +16,10 @@
         <div class="resource-video__row">
           <video
               id="player"
+              v-if="video.path"
+              :src="`${baseUrl}${video.path}`"
               playsinline
               controls>
-            <source
-                v-if="video.path"
-                :src="`${baseUrl}${video.path}`"
-                type="video/mp4" />
           </video>
         </div>
       </div>
