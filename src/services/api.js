@@ -223,6 +223,25 @@ export async function assignResourceToModule(data) {
   }
 }
 
+
+export async function removeResourceFromModule(moduleId, resourceId) {
+  const { baseUrl } = useStore();
+  const user = getItemFromStorage('dotpoint_user') || {};
+  try {
+    const response = await http({
+      method: 'DELETE',
+      url: `${baseUrl}/module-resources/${moduleId}/${resourceId}`,
+      headers: {
+        Authorization: `Bearer ${user.token || ''}`,
+      },
+    });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getResources() {
   const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};

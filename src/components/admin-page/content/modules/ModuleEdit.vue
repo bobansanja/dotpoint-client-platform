@@ -45,7 +45,10 @@
                 <v-chip
                   v-for="chip in formattedModule[field.key]"
                   :key="chip.id"
-                  class="resource-chip">
+                  class="resource-chip"
+                  close-icon="mdi-delete"
+                  closable
+                  @click:close="removeResource(chip.id)">
                   {{ chip.display_name }}
                 </v-chip>
               </v-sheet>
@@ -82,7 +85,7 @@
 <script setup>
 import { isNumber } from 'lodash-es';
 import { nextTick, onMounted, ref, watch } from 'vue';
-import { getProducts, updateModule } from '../../../../services/api.js';
+import { getProducts, updateModule, removeResourceFromModule } from '../../../../services/api.js';
 
 const props = defineProps({
   module: {
@@ -216,6 +219,11 @@ async function saveAndClose() {
 
   emit('updateTable');
   close();
+}
+
+async function removeResource(resourceId) {
+  await removeResourceFromModule(props.moduleId, resourceId);
+  emit('updateTable');
 }
 
 watch(dialog, (val) => {
