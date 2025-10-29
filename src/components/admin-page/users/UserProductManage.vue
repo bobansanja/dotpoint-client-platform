@@ -57,8 +57,8 @@ const headers = ref([
   },
   { title: 'Unique name', key: 'product_unique_name' },
   { title: 'Title', key: 'product_title' },
-  { title: 'Remove', key: 'deleteAction', sortable: false },
   { title: 'Expiration date', key: 'expiration_date', sortable: false },
+  { title: 'Remove', key: 'deleteAction', sortable: false },
   // { title: 'Edit', key: 'editAction', sortable: false },
 ]);
 
