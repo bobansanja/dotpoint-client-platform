@@ -2,7 +2,7 @@
   <v-container>
     <v-data-table
       :headers="headers"
-      :items="user.products">
+      :items="subscriptions">
       <template v-slot:top>
         <v-toolbar
           :elevation="1"
@@ -10,19 +10,27 @@
           <v-toolbar-title>Existing subscriptions</v-toolbar-title>
         </v-toolbar>
       </template>
-      <template v-slot:item.unique_name="{ item }">
+      <template v-slot:item.product_unique_name="{ item }">
         <v-chip>
-          {{ item.unique_name }}
+          {{ item.product_unique_name }}
         </v-chip>
       </template>
       <template v-slot:item.deleteAction="{ item }">
         <v-icon
           size="small"
           class="me-4"
-          @click="removeSubscription(item)">
+          @click="deleteSubscription(item)">
           mdi-delete
         </v-icon>
       </template>
+<!--      <template v-slot:item.editAction="{ item }">-->
+<!--        <v-icon-->
+<!--          size="small"-->
+<!--          class="me-4"-->
+<!--          @click="editSubscription(item)">-->
+<!--          mdi-pencil-->
+<!--        </v-icon>-->
+<!--      </template>-->
     </v-data-table>
     <template v-slot:bottom> </template>
   </v-container>
@@ -30,37 +38,46 @@
 
 <script setup>
 import { ref } from 'vue';
-import { addUserSubscription } from '../../../services/api.js';
+import { removeUserSubscription } from '../../../services/api.js';
 
 const props = defineProps({
-  user: {
-    type: Object,
+  subscriptions: {
+    type: Array,
     required: true,
-    default: () => {},
+    default: () => [],
   },
 });
-const emit = defineEmits(['updateTable']);
+const emit = defineEmits(['updateTable', 'subscriptionUpdate']);
 
-const userProductList = ref([]);
 const headers = ref([
   {
     title: 'Id',
     align: 'start',
-    key: 'id',
+    key: 'product_id',
   },
-  { title: 'Unique name', key: 'unique_name' },
-  { title: 'Title', key: 'title' },
+  { title: 'Unique name', key: 'product_unique_name' },
+  { title: 'Title', key: 'product_title' },
   { title: 'Remove', key: 'deleteAction', sortable: false },
   { title: 'Expiration date', key: 'expiration_date', sortable: false },
-  { title: 'Edit', key: 'editAction', sortable: false },
+  // { title: 'Edit', key: 'editAction', sortable: false },
 ]);
 
-async function removeSubscription(item) {
-  // console.log('item', item);
-  // await addUserSubscription(data || {});
-  //
-  // emit('updateTable');
+async function deleteSubscription(item) {
+  await removeUserSubscription(item.user_id, item.product_id);
+
+  emit('subscriptionUpdate');
+  emit('updateTable');
 }
+
+// async function editSubscription(item) {
+  // const data = { ...item.value.expiration_date };
+  // await updateUserSubscription(item.id, data || {});
+  //
+  // await loadUserSubscriptions();
+  //
+  // emit('updateSubscriptionList');
+  // emit('updateTable');
+// }
 </script>
 
 <style lang="scss" scoped></style>

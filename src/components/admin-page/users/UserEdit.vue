@@ -22,9 +22,12 @@
       </v-container>
       <UserAddProduct
         :user="user"
+        :available-products="availableProductList"
+        @subscriptionAdded="handleSubscriptionUpdate"
         @updateTable="handleTableUpdate" />
       <UserProductManage
-        :user="user"
+        :subscriptions="userSubscriptionList"
+        @subscriptionUpdate="handleSubscriptionUpdate"
         @updateTable="handleTableUpdate" />
     </v-card>
   </v-dialog>
@@ -33,7 +36,7 @@
 <script setup>
 import { differenceBy } from 'lodash-es';
 import { nextTick, onMounted, ref, watch } from 'vue';
-import { getProducts } from '../../../services/api.js';
+import {getActiveProducts, getUsers, getUserSubscriptions} from '../../../services/api.js';
 import UserAddProduct from './UserAddProduct.vue';
 import UserProductManage from './UserProductManage.vue';
 
@@ -54,8 +57,10 @@ const emit = defineEmits(['closeModal', 'updateTable']);
 const dialog = ref(true);
 const form = ref(null);
 
-const allProductList = ref([]);
+const subscribedList = ref([]);
 const availableProductList = ref([]);
+
+const userSubscriptionList = ref([]);
 
 const initialUserDetails = ref({});
 const formattedUser = ref(null);
@@ -81,9 +86,26 @@ const setInitialData = () => {
 };
 
 async function loadProductList() {
-  const response = await getProducts();
-  allProductList.value = [...response?.free_products, ...response?.subscription_products] || [];
-  availableProductList.value = differenceBy(allProductList.value, props.user.products, 'id');
+  const products = await getActiveProducts();
+  const allProductList = [...products?.subscription_products] || [];
+
+
+  const users = await getUsers();
+  const user = ([...users] || []).filter((user) => user.id === props.user.id);
+
+  subscribedList.value = user[0].products.filter((prod) => prod.subscription_required);
+
+  availableProductList.value = differenceBy(allProductList, subscribedList.value, 'id');
+}
+
+async function loadUserSubscriptions() {
+  const response = await getUserSubscriptions(props.userId);
+  userSubscriptionList.value = [...response] || [];
+}
+
+function handleSubscriptionUpdate() {
+  loadProductList();
+  loadUserSubscriptions();
 }
 
 function handleTableUpdate() {
@@ -105,6 +127,7 @@ watch(dialog, (val) => {
 onMounted(() => {
   setInitialData();
   loadProductList();
+  loadUserSubscriptions();
 });
 </script>
 

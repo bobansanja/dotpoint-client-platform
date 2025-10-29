@@ -14,7 +14,7 @@
           <v-col cols="5">
             <v-select
               v-model="newSubscription.product_id"
-              :items="availableProductList"
+              :items="availableProducts"
               :rules="newSubscription.rules.product"
               item-title="title"
               item-value="id"
@@ -41,9 +41,8 @@
 </template>
 
 <script setup>
-import { differenceBy } from 'lodash-es';
-import { onMounted, ref } from 'vue';
-import { getProducts, addUserSubscription } from '../../../services/api.js';
+import { ref } from 'vue';
+import { addUserSubscription } from '../../../services/api.js';
 
 const props = defineProps({
   user: {
@@ -51,13 +50,15 @@ const props = defineProps({
     required: true,
     default: () => {},
   },
+  availableProducts: {
+    type: Array,
+    required: true,
+    default: () => [],
+  },
 });
-const emit = defineEmits(['updateTable']);
+const emit = defineEmits(['updateTable', 'subscriptionAdded']);
 
 const addSubscriptionForm = ref(null);
-
-const allProductList = ref([]);
-const availableProductList = ref([]);
 
 const newSubscription = ref({
   product_id: null,
@@ -78,12 +79,6 @@ const newSubscription = ref({
   },
 });
 
-async function loadProductList() {
-  const response = await getProducts();
-  allProductList.value = [...response?.free_products, ...response?.subscription_products] || [];
-  availableProductList.value = differenceBy(allProductList.value, props.user.products, 'id');
-}
-
 async function addSubscription() {
   const { valid: validForm } = await addSubscriptionForm.value.validate();
 
@@ -95,12 +90,11 @@ async function addSubscription() {
 
   await addUserSubscription(data || {});
 
+  addSubscriptionForm.value.reset();
+
+  emit('subscriptionAdded');
   emit('updateTable');
 }
-
-onMounted(() => {
-  loadProductList();
-});
 </script>
 
 <style lang="scss" scoped></style>

@@ -55,6 +55,24 @@ export async function getUsers() {
   }
 }
 
+export async function getUserSubscriptions(userId) {
+  const { baseUrl } = useStore();
+  const user = getItemFromStorage('dotpoint_user') || {};
+  try {
+    const response = await http({
+      method: 'GET',
+      url: `${baseUrl}/subscriptions/user/${userId}`,
+      headers: {
+        Authorization: `Bearer ${user.token || ''}`,
+      },
+    });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function addUserSubscription(data) {
   const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
@@ -74,7 +92,62 @@ export async function addUserSubscription(data) {
   }
 }
 
+export async function updateUserSubscription(subscriptionId, data) {
+  const { baseUrl } = useStore();
+  const user = getItemFromStorage('dotpoint_user') || {};
+  try {
+    const response = await http({
+      method: 'PUT',
+      url: `${baseUrl}/subscriptions/${subscriptionId}`,
+      headers: {
+        Authorization: `Bearer ${user.token || ''}`,
+      },
+      data,
+    });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function removeUserSubscription(userId, productId) {
+  const { baseUrl } = useStore();
+  const user = getItemFromStorage('dotpoint_user') || {};
+  try {
+    const response = await http({
+      method: 'DELETE',
+      url: `${baseUrl}/subscriptions/${userId}/${productId}`,
+      headers: {
+        Authorization: `Bearer ${user.token || ''}`,
+      },
+    });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getProducts() {
+  const { baseUrl } = useStore();
+  const user = getItemFromStorage('dotpoint_user') || {};
+  try {
+    const response = await http({
+      method: 'GET',
+      url: `${baseUrl}/products/all`,
+      headers: {
+        Authorization: `Bearer ${user.token || ''}`,
+      },
+    });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getActiveProducts() {
   const { baseUrl } = useStore();
   const user = getItemFromStorage('dotpoint_user') || {};
   try {
