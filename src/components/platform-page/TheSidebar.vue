@@ -43,12 +43,12 @@ import { onBeforeMount, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { sortBy } from 'lodash-es';
 import { usePlatformStore } from '../../stores/platformStore.js';
-import { getProducts, getSingleModule } from '../../services/api.js';
+import { getActiveProducts, getSingleModule } from '../../services/api.js';
 const { freeProducts, subscriptionProducts } = storeToRefs(usePlatformStore());
 const { setFreeProducts, setSubscriptionProducts, setActiveModule } = usePlatformStore();
 
 async function loadProducts() {
-  const response = await getProducts();
+  const response = await getActiveProducts();
 
   setFreeProducts(sortBy([...response?.free_products], 'position'));
   setSubscriptionProducts(sortBy([...response?.subscription_products], 'position'));
